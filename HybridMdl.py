@@ -14,6 +14,7 @@ class train:
     labeltest = ""
     predictionlabel = ""
     finalresult = pd.DataFrame()
+    richpeople = pd.DataFrame()
     score = 0
     length = 0
     no = -1
@@ -124,6 +125,7 @@ class train:
             print ("Score is:")
             print (((self.score)/16281)*100)
             self.finalresult.to_csv("Predicted_result.csv", sep = ',', encoding = 'utf-8')
+            self.richpeople.to_csv("Rich_people.csv", sep = ',', encoding='utf-8')
             exit()
                     
     def displayAccuracy(self, name):
@@ -157,5 +159,3 @@ T.splitData()
 T.cleanDataFrame()
 print ("Feeding data\n")
 T.trainingModels()
-
-
