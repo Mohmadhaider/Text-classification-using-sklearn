@@ -32,7 +32,6 @@
    * Clone repo to your local drive.
    * Extract zip file.
    * Execute HybridMdl.py or UsingOneAlgo by following command.
-   
     ```
     python HybridMdl.py
     python UsingOneAlgo.py
