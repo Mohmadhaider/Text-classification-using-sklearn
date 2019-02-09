@@ -14,6 +14,7 @@ class train:
     labeltest = ""
     predictionlabel = ""
     finalresult = pd.DataFrame()
+    richpeople = pd.DataFrame()
     score = 0
     length = 0
     no = -1
@@ -96,6 +97,9 @@ class train:
 
             else:
                 corr.append(j1[j])
+                if self.predictiontest[j] == 1:
+                    self.richpeople = self.richpeople.append(self.dataframetest.loc[[j1[j]]])
+
 
             j+=1
         counf = confusion_matrix(self.labeltest, self.predictiontest)
@@ -104,6 +108,7 @@ class train:
         print ("Score is:")
         print (((self.score)/self.length)*100)
         self.finalresult.to_csv("Predicted_result.csv", sep = ',', encoding = 'utf-8')
+        self.richpeople.to_csv("Rich_people.csv", sep = ',', encoding='utf-8')
         exit()
             
         
@@ -115,5 +120,3 @@ T.splitData()
 T.cleanDataFrame()
 print ("Feeding data\n")
 T.trainingModels()
-
-
