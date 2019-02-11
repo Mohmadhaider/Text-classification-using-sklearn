@@ -1,9 +1,7 @@
 import pandas as pd
 import numpy as np
 from sklearn.metrics import confusion_matrix
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier,AdaBoostClassifier, GradientBoostingClassifier
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis, QuadraticDiscriminantAnalysis
+from sklearn.ensemble import RandomForestClassifier
 
 class train:
 
@@ -82,33 +80,24 @@ class train:
             clf2 = RandomForestClassifier(criterion = "gini", random_state = 60, max_depth = 20, n_estimators = 200)
             clf2.fit(self.featuretrain,self.labeltrain)
             self.predictiontest = clf2.predict(self.featuretest)
+            predictiontest2 = clf2.predict_proba(self.featuretest)
+            
+            result = []
+            j = 0
+            for i in predictiontest2:
+                if i[1] > 0.63000000:
+                    result.append(j)
+                j+=1
+            pd.DataFrame(result).to_csv("Rich_people.csv")
             self.no+=1
             self.displayAccuracy("RandomForestClassifier")
                     
     def displayAccuracy(self, name):
 
-        bad = []
-        corr = []
-        j1 = self.labeltest.index
-        j = 0
-        for i in self.labeltest:
-            if self.predictiontest[j] != i:
-                bad.append(j1[j])
-
-            else:
-                corr.append(j1[j])
-                if self.predictiontest[j] == 1:
-                    self.richpeople = self.richpeople.append(self.dataframetest.loc[[j1[j]]])
-
-
-            j+=1
         counf = confusion_matrix(self.labeltest, self.predictiontest)
         self.score = self.score+(counf[0][0]+counf[1][1])
-        self.finalresult = self.finalresult.append(self.dataframetest.drop(bad))
         print ("Score is:")
         print (((self.score)/self.length)*100)
-        self.finalresult.to_csv("Predicted_result.csv", sep = ',', encoding = 'utf-8')
-        self.richpeople.to_csv("Rich_people.csv", sep = ',', encoding='utf-8')
         exit()
             
         
@@ -120,3 +109,5 @@ T.splitData()
 T.cleanDataFrame()
 print ("Feeding data\n")
 T.trainingModels()
+
+
